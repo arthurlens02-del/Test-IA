@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tonnerre · Pédales d'effet artisanales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #e7e5f0;
+  --surface: #f6f5fb;
+  --ink: #1d1b2e;
+  --ink-soft: #55526e;
+  --line: #c9c5dc;
+  --accent: #e8452c;
+  --on-accent: #fff;
+  --focus: #3b2fd1;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16142a; --surface: #201d3a; --ink: #f0eefc; --ink-soft: #aaa6cc;
+    --line: #38345c; --accent: #ff6a50; --focus: #a49cff;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16142a; --surface: #201d3a; --ink: #f0eefc; --ink-soft: #aaa6cc;
+  --line: #38345c; --accent: #ff6a50; --focus: #a49cff;
+}
+html { scroll-padding-top: 5rem; scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Instrument Sans", system-ui, "Segoe UI", sans-serif; font-size: 1rem; line-height: 1.55; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
+.display { font-family: "Unbounded", "Arial Black", system-ui, sans-serif; letter-spacing: -0.03em; }
+
+/* Bandeau démo */
+.demo { background: var(--ink); color: var(--bg); text-align: center; font-size: .85rem; padding: .45rem 1rem; }
+
+/* Header */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 2px solid var(--ink); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 4rem; gap: 1rem; }
+.logo { font-size: 1.35rem; font-weight: 800; text-decoration: none; }
+.top-actions { display: flex; gap: .5rem; align-items: center; }
+.icon-btn { border: 2px solid var(--ink); background: transparent; border-radius: 999px; padding: .45rem .95rem; font-weight: 600; }
+.icon-btn:hover { background: var(--ink); color: var(--bg); }
+.badge { display: inline-block; min-width: 1.4rem; padding: 0 .35rem; margin-left: .35rem; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: .8rem; text-align: center; }
+
+/* Hero */
+.hero { padding: 3.5rem 0 2rem; display: grid; grid-template-columns: 1.1fr .9fr; gap: 2rem; align-items: center; }
+.hero h1 { font-size: clamp(2.2rem, 6.5vw, 4.4rem); line-height: 1.02; font-weight: 800; margin: 0 0 1.25rem; }
+.hero p { font-size: 1.2rem; color: var(--ink-soft); max-width: 30rem; margin: 0 0 1.75rem; }
+.cta { display: inline-block; background: var(--accent); color: var(--on-accent); border: 2px solid var(--ink); padding: .85rem 1.6rem; border-radius: 12px; font-weight: 600; text-decoration: none; box-shadow: 4px 4px 0 var(--ink); transition: transform .12s, box-shadow .12s; }
+.cta:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+.hero-art { position: relative; height: 340px; }
+.hero-art .p { position: absolute; width: 190px; }
+.hero-art .p1 { left: 0; top: 40px; transform: rotate(-9deg); }
+.hero-art .p2 { left: 120px; top: 0; transform: rotate(5deg); z-index: 2; }
+.hero-art .p3 { left: 200px; top: 140px; transform: rotate(-3deg); z-index: 1; }
+.hero-art svg { width: 100%; height: auto; display: block; filter: drop-shadow(6px 8px 0 rgba(29,27,46,.25)); }
+
+/* Réassurance */
+.perks { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; padding: 1rem 0 2.5rem; }
+.perk { border-left: 4px solid var(--accent); padding-left: .9rem; }
+.perk b { display: block; }
+.perk span { color: var(--ink-soft); font-size: .95rem; }
+
+/* Catalogue */
+.toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; margin-bottom: 1.5rem; }
+.toolbar h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); margin: 0; font-weight: 800; }
+.filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip { border: 2px solid var(--ink); background: transparent; border-radius: 999px; padding: .35rem .9rem; font-size: .92rem; font-weight: 500; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+select { font: inherit; background: var(--surface); color: var(--ink); border: 2px solid var(--ink); border-radius: 10px; padding: .4rem .6rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.4rem; padding-bottom: 3rem; }
+.card { background: var(--surface); border: 2px solid var(--ink); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+.card .art { padding: 1.4rem 2rem 1rem; background: var(--tint, var(--bg)); border-bottom: 2px solid var(--ink); cursor: pointer; border: 0; border-bottom: 2px solid var(--ink); width: 100%; }
+.card .art svg { width: 100%; max-width: 170px; margin: 0 auto; display: block; transition: transform .2s; }
+.card .art:hover svg { transform: rotate(-3deg) scale(1.04); }
+.card .info { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .35rem; flex: 1; }
+.card .cat { color: var(--ink-soft); font-size: .88rem; }
+.card h3 { margin: 0; font-size: 1.1rem; font-weight: 800; }
+.card .row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: .6rem; }
+.price { font-weight: 600; font-size: 1.15rem; }
+.add { background: var(--ink); color: var(--bg); border: 2px solid var(--ink); border-radius: 10px; padding: .4rem .9rem; font-weight: 600; }
+.add:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.stock { color: #b3261e; font-size: .85rem; font-weight: 600; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .stock { color: #ff9a8f; } }
+:root[data-theme="dark"] .stock { color: #ff9a8f; }
+
+/* Panier */
+.overlay { position: fixed; inset: 0; background: rgba(15,13,30,.55); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.overlay.open { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100%); background: var(--bg); border-left: 2px solid var(--ink); z-index: 50; transform: translateX(100%); transition: transform .25s; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.drawer.open { transform: none; }
+.drawer header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 2px solid var(--ink); }
+.drawer h2 { margin: 0; font-size: 1.3rem; }
+.lines { flex: 1; overflow-y: auto; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+.line { display: grid; grid-template-columns: 64px 1fr auto; gap: .8rem; align-items: center; }
+.line .mini { background: var(--tint); border: 2px solid var(--ink); border-radius: 10px; padding: .3rem; }
+.line .mini svg { width: 100%; display: block; }
+.line b { display: block; line-height: 1.2; }
+.line small { color: var(--ink-soft); }
+.qty { display: inline-flex; align-items: center; border: 2px solid var(--ink); border-radius: 8px; margin-top: .3rem; }
+.qty button { border: 0; background: transparent; width: 1.9rem; height: 1.9rem; font-weight: 700; }
+.qty span { min-width: 1.6rem; text-align: center; font-weight: 600; }
+.line .rm { border: 0; background: transparent; color: var(--ink-soft); text-decoration: underline; font-size: .85rem; }
+.empty { color: var(--ink-soft); text-align: center; margin-top: 3rem; }
+.foot { border-top: 2px solid var(--ink); padding: 1rem 1.25rem; background: var(--surface); }
+.ship { font-size: .9rem; margin-bottom: .6rem; }
+.bar { height: 8px; border-radius: 8px; background: var(--line); overflow: hidden; margin-bottom: .8rem; }
+.bar i { display: block; height: 100%; background: var(--accent); transition: width .25s; }
+.total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.15rem; margin-bottom: .8rem; }
+.pay { width: 100%; background: var(--accent); color: var(--on-accent); border: 2px solid var(--ink); border-radius: 12px; padding: .8rem; font-weight: 600; }
+.pay:disabled { opacity: .5; cursor: not-allowed; }
+.note { font-size: .82rem; color: var(--ink-soft); margin: .6rem 0 0; }
+.thanks { background: var(--ink); color: var(--bg); padding: .8rem 1rem; border-radius: 10px; margin-top: .8rem; font-size: .92rem; }
+
+/* Fiche produit */
+dialog { border: 2px solid var(--ink); border-radius: 18px; padding: 0; background: var(--bg); color: var(--ink); width: min(720px, calc(100% - 2rem)); }
+dialog::backdrop { background: rgba(15,13,30,.55); }
+.detail { display: grid; grid-template-columns: 1fr 1fr; }
+.detail .art { background: var(--tint); padding: 2rem; display: grid; place-items: center; border-right: 2px solid var(--ink); }
+.detail .art svg { width: 100%; max-width: 230px; }
+.detail .txt { padding: 1.5rem; display: flex; flex-direction: column; gap: .6rem; }
+.detail h3 { margin: 0; font-size: 1.5rem; font-weight: 800; }
+.detail ul { margin: 0; padding-left: 1.1rem; color: var(--ink-soft); }
+.detail .close { align-self: flex-end; border: 0; background: transparent; font-size: 1.6rem; line-height: 1; margin: -.5rem -.5rem 0 0; }
+
+footer.bottom { border-top: 2px solid var(--ink); padding: 2rem 0 3rem; color: var(--ink-soft); font-size: .92rem; }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; padding-top: 2rem; }
+  .hero-art { height: 260px; }
+  .hero-art .p { width: 140px; }
+  .hero-art .p2 { left: 90px; } .hero-art .p3 { left: 160px; top: 110px; }
+  .detail { grid-template-columns: 1fr; }
+  .detail .art { border-right: 0; border-bottom: 2px solid var(--ink); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="demo">Site de démonstration réalisé pour un portfolio. Aucun paiement réel, aucun produit à livrer.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo display" href="#top">Tonnerre</a>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Changer de thème">Thème</button>
+      <button class="icon-btn" id="cartBtn" type="button" aria-haspopup="dialog">Panier<span class="badge" id="count">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap hero">
+    <div>
+      <h1 class="display">Des pédales d'effet faites main, en petite série.</h1>
+      <p>Chaque boîtier est assemblé et testé à la main. Fuzz, delay, reverb : choisis ton son et branche-toi.</p>
+      <a class="cta" href="#catalogue">Voir le catalogue</a>
+    </div>
+    <div class="hero-art" id="heroArt" aria-hidden="true"></div>
+  </section>
+
+  <div class="wrap">
+    <div class="perks">
+      <div class="perk"><b>Livraison offerte dès 150 €</b><span>Expédié sous 48 h.</span></div>
+      <div class="perk"><b>Retours sous 30 jours</b><span>Essaie chez toi, rends si ça ne te va pas.</span></div>
+      <div class="perk"><b>Garantie 5 ans</b><span>Réparation gratuite en atelier.</span></div>
+    </div>
+
+    <section id="catalogue" aria-labelledby="h-cat">
+      <div class="toolbar">
+        <h2 class="display" id="h-cat">Catalogue</h2>
+        <label>Trier par
+          <select id="sort">
+            <option value="def">Sélection</option>
+            <option value="asc">Prix croissant</option>
+            <option value="desc">Prix décroissant</option>
+          </select>
+        </label>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filtrer par type" style="margin-bottom:1.5rem"></div>
+      <div class="grid" id="grid" aria-live="polite"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="bottom">
+  <div class="wrap">Projet de portfolio : boutique en ligne fictive (catalogue, filtres, fiche produit, panier). Fait avec l'aide de Claude, adapté et relu par moi.</div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Panier" aria-hidden="true">
+  <header>
+    <h2 class="display">Panier</h2>
+    <button class="icon-btn" id="closeCart" type="button">Fermer</button>
+  </header>
+  <div class="lines" id="lines"></div>
+  <div class="foot">
+    <div class="ship" id="ship"></div>
+    <div class="bar"><i id="barFill" style="width:0%"></i></div>
+    <div class="total"><span>Total</span><span id="total">0,00 €</span></div>
+    <button class="pay" id="pay" type="button">Passer la commande</button>
+    <p class="note">Démo : le bouton simule une commande, aucun paiement n'est demandé.</p>
+    <div id="thanks"></div>
+  </div>
+</aside>
+
+<dialog id="dlg" aria-label="Détail du produit"></dialog>
+
+<script>
+const FREE_SHIP = 150;
+const PRODUCTS = [
+  { id: 1, name: "Gremlin",     cat: "Fuzz",       price: 89,  color: "#e8452c", tint: "#f6c7bd", stock: 12, desc: "Un fuzz gras et crachant, façon années 60.", specs: ["Alimentation 9 V", "Boîtier alu peint à la main", "Contrôles : niveau, fuzz, ton"] },
+  { id: 2, name: "Velvet",      cat: "Overdrive",  price: 119, color: "#0e8f8a", tint: "#b9e3df", stock: 8,  desc: "Une saturation douce qui réagit à ton jeu.", specs: ["Alimentation 9 V", "True bypass", "Contrôles : gain, ton, volume"] },
+  { id: 3, name: "Echo Pond",   cat: "Delay",      price: 149, color: "#5b9be6", tint: "#c9ddf6", stock: 3,  desc: "Des répétitions chaudes qui se fondent dans le son.", specs: ["Alimentation 9 V", "Jusqu'à 600 ms", "Contrôles : temps, répétitions, mix"] },
+  { id: 4, name: "Cathedral",   cat: "Reverb",     price: 159, color: "#8a7be0", tint: "#d9d3f7", stock: 6,  desc: "Un grand espace sonore, du ressort à la nef d'église.", specs: ["Alimentation 9 V", "3 modes de reverb", "Contrôles : durée, ton, mix"] },
+  { id: 5, name: "Tape Mustard",cat: "Delay",      price: 169, color: "#f2b705", tint: "#fbe9a6", stock: 5,  desc: "Le grain d'un vieil écho à bande, sans la maintenance.", specs: ["Alimentation 9 V", "Effet de vieillissement réglable", "Contrôles : temps, usure, mix"] },
+  { id: 6, name: "Rosa",        cat: "Modulation", price: 99,  color: "#ef7fb0", tint: "#f8cfe1", stock: 14, desc: "Un chorus brillant, pour des accords qui scintillent.", specs: ["Alimentation 9 V", "Stéréo", "Contrôles : vitesse, profondeur, niveau"] },
+  { id: 7, name: "Tiny Boost",  cat: "Overdrive",  price: 59,  color: "#3fa866", tint: "#c3e6d0", stock: 20, desc: "Un petit boost propre pour pousser ton ampli.", specs: ["Alimentation 9 V", "Format mini", "Contrôle : gain"] },
+  { id: 8, name: "Wobble",      cat: "Modulation", price: 109, color: "#ff8a4c", tint: "#ffd5bd", stock: 2,  desc: "Un trémolo qui pulse, du doux au hachuré.", specs: ["Alimentation 9 V", "Forme d'onde au choix", "Contrôles : vitesse, profondeur, forme"] }
+];
+
+const money = new Intl.NumberFormat("fr-BE", { style: "currency", currency: "EUR" });
+const $ = (s) => document.querySelector(s);
+
+/* Illustration SVG d'une pédale */
+function pedal(p, small) {
+  const knob = (x) => `<circle cx="${x}" cy="62" r="11" fill="#1d1b2e"/><rect x="${x-1.5}" y="53" width="3" height="9" rx="1.5" fill="#f6f5fb"/>`;
+  return `<svg viewBox="0 0 160 220" role="img" aria-label="Pédale ${p.name}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="6" width="148" height="208" rx="16" fill="${p.color}" stroke="#1d1b2e" stroke-width="4"/>
+    <circle cx="24" cy="24" r="4" fill="#1d1b2e"/><circle cx="136" cy="24" r="4" fill="#1d1b2e"/>
+    ${knob(40)}${knob(80)}${knob(120)}
+    <circle cx="80" cy="102" r="5" fill="#f6f5fb" stroke="#1d1b2e" stroke-width="2"/>
+    <text x="80" y="140" text-anchor="middle" font-family="Unbounded, Arial Black, sans-serif" font-weight="800" font-size="${p.name.length > 9 ? 12 : 16}" fill="#1d1b2e">${p.name.toUpperCase()}</text>
+    <circle cx="80" cy="180" r="19" fill="#d8d5e6" stroke="#1d1b2e" stroke-width="4"/>
+    <circle cx="80" cy="180" r="9" fill="#f6f5fb" stroke="#1d1b2e" stroke-width="2"/>
+  </svg>`;
+}
+
+/* Hero */
+$("#heroArt").innerHTML = [4, 1, 5].map((id, i) => `<div class="p p${i+1}">${pedal(PRODUCTS.find(x => x.id === id))}</div>`).join("");
+
+/* État */
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem("cart") || "{}"); } catch (e) { cart = {}; }
+let filter = "Tous", sort = "def";
+const save = () => { try { localStorage.setItem("cart", JSON.stringify(cart)); } catch (e) {} };
+
+/* Filtres */
+const cats = ["Tous", ...new Set(PRODUCTS.map(p => p.cat))];
+function renderFilters() {
+  $("#filters").innerHTML = cats.map(c => `<button class="chip" type="button" data-cat="${c}" aria-pressed="${c === filter}">${c}</button>`).join("");
+}
+$("#filters").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-cat]"); if (!b) return;
+  filter = b.dataset.cat; renderFilters(); renderGrid();
+});
+$("#sort").addEventListener("change", (e) => { sort = e.target.value; renderGrid(); });
+
+/* Grille */
+function renderGrid() {
+  let list = PRODUCTS.filter(p => filter === "Tous" || p.cat === filter);
+  if (sort === "asc") list = [...list].sort((a, b) => a.price - b.price);
+  if (sort === "desc") list = [...list].sort((a, b) => b.price - a.price);
+  $("#grid").innerHTML = list.map(p => `
+    <article class="card">
+      <button class="art" type="button" style="--tint:${p.tint}" data-open="${p.id}" aria-label="Voir le détail de ${p.name}">${pedal(p)}</button>
+      <div class="info">
+        <span class="cat">${p.cat}</span>
+        <h3 class="display">${p.name}</h3>
+        ${p.stock <= 3 ? `<span class="stock">Plus que ${p.stock} en stock</span>` : ""}
+        <div class="row"><span class="price">${money.format(p.price)}</span><button class="add" type="button" data-add="${p.id}">Ajouter</button></div>
+      </div>
+    </article>`).join("");
+}
+$("#grid").addEventListener("click", (e) => {
+  const a = e.target.closest("[data-add]"), o = e.target.closest("[data-open]");
+  if (a) { addToCart(+a.dataset.add); openCart(); }
+  if (o) openDetail(+o.dataset.open);
+});
+
+/* Fiche produit */
+function openDetail(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  const dlg = $("#dlg");
+  dlg.innerHTML = `<div class="detail">
+    <div class="art" style="--tint:${p.tint}">${pedal(p)}</div>
+    <div class="txt">
+      <button class="close" type="button" aria-label="Fermer" data-close>&times;</button>
+      <span class="cat">${p.cat}</span>
+      <h3 class="display">${p.name}</h3>
+      <p style="margin:0">${p.desc}</p>
+      <ul>${p.specs.map(s => `<li>${s}</li>`).join("")}</ul>
+      <div class="price" style="margin-top:auto">${money.format(p.price)}</div>
+      <button class="cta" type="button" data-add2="${p.id}" style="border-radius:12px;cursor:pointer;font:inherit;font-weight:600">Ajouter au panier</button>
+    </div></div>`;
+  dlg.showModal();
+}
+$("#dlg").addEventListener("click", (e) => {
+  if (e.target.closest("[data-close]") || e.target === $("#dlg")) $("#dlg").close();
+  const a = e.target.closest("[data-add2]");
+  if (a) { addToCart(+a.dataset.add2); $("#dlg").close(); openCart(); }
+});
+
+/* Panier */
+function addToCart(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  cart[id] = Math.min((cart[id] || 0) + 1, p.stock);
+  save(); renderCart();
+}
+function renderCart() {
+  const ids = Object.keys(cart).filter(id => cart[id] > 0);
+  const n = ids.reduce((s, id) => s + cart[id], 0);
+  const total = ids.reduce((s, id) => s + cart[id] * PRODUCTS.find(p => p.id == id).price, 0);
+  $("#count").textContent = n;
+  $("#total").textContent = money.format(total);
+  $("#pay").disabled = n === 0;
+  const left = Math.max(FREE_SHIP - total, 0);
+  $("#ship").textContent = n === 0 ? `Livraison offerte dès ${money.format(FREE_SHIP)}.` : left > 0 ? `Plus que ${money.format(left)} pour la livraison offerte.` : "Livraison offerte.";
+  $("#barFill").style.width = Math.min(total / FREE_SHIP * 100, 100) + "%";
+  $("#lines").innerHTML = n === 0 ? `<p class="empty">Ton panier est vide. Choisis une pédale dans le catalogue.</p>` :
+    ids.map(id => { const p = PRODUCTS.find(x => x.id == id); return `
+      <div class="line">
+        <div class="mini" style="--tint:${p.tint}">${pedal(p)}</div>
+        <div><b>${p.name}</b><small>${p.cat} · ${money.format(p.price)}</small><br>
+          <div class="qty"><button type="button" data-dec="${id}" aria-label="Retirer un ${p.name}">&minus;</button><span>${cart[id]}</span><button type="button" data-inc="${id}" aria-label="Ajouter un ${p.name}">+</button></div>
+        </div>
+        <button class="rm" type="button" data-rm="${id}">Supprimer</button>
+      </div>`; }).join("");
+}
+$("#lines").addEventListener("click", (e) => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.inc) addToCart(+t.dataset.inc);
+  if (t.dataset.dec) { const id = t.dataset.dec; cart[id]--; if (cart[id] <= 0) delete cart[id]; save(); renderCart(); }
+  if (t.dataset.rm) { delete cart[t.dataset.rm]; save(); renderCart(); }
+});
+$("#pay").addEventListener("click", () => {
+  cart = {}; save(); renderCart();
+  $("#thanks").innerHTML = `<div class="thanks">Merci ! Commande simulée. Dans une vraie boutique, tu arriverais ici sur la page de paiement.</div>`;
+});
+
+function openCart() { $("#drawer").classList.add("open"); $("#overlay").classList.add("open"); $("#drawer").setAttribute("aria-hidden", "false"); $("#closeCart").focus(); }
+function closeCart() { $("#drawer").classList.remove("open"); $("#overlay").classList.remove("open"); $("#drawer").setAttribute("aria-hidden", "true"); $("#thanks").innerHTML = ""; $("#cartBtn").focus(); }
+$("#cartBtn").addEventListener("click", openCart);
+$("#closeCart").addEventListener("click", closeCart);
+$("#overlay").addEventListener("click", closeCart);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("#drawer").classList.contains("open")) closeCart(); });
+
+/* Thème */
+const root = document.documentElement;
+try { const s = localStorage.getItem("theme"); if (s) root.setAttribute("data-theme", s); } catch (e) {}
+$("#themeBtn").addEventListener("click", () => {
+  const dark = root.getAttribute("data-theme") === "dark" || (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+  const next = dark ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try { localStorage.setItem("theme", next); } catch (e) {}
+});
+
+renderFilters(); renderGrid(); renderCart();
+</script>
+</body>
+</html>
